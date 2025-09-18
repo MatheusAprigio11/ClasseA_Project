@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+jwt:
+  secret: uma-chave-secreta-padrao-para-desenvolvimento-que-seja-longa-o-suficiente
+  expiration:
+    login: 86400000
+    reset: 900000
