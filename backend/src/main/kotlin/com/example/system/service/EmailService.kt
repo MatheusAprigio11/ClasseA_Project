@@ -33,7 +33,6 @@ class EmailService(private val mailSender: JavaMailSender) {
             mailSender.send(message)
             println("Email de recuperação enviado para $toEmail")
         } catch (e: Exception) {
-            // Em um ambiente de produção, isso deveria ser logado com um logger como SLF4J
             e.printStackTrace()
         }
     }
