@@ -1,5 +1,5 @@
 import { apiClient } from "@/api/api";
-import Button from "@/components/Button";
+import CustomButton from "@/components/Button";
 import TextInput from "@/components/TextInput";
 import { COLORS, SIZES } from "@/constants/theme";
 import { AxiosResponse } from "axios";
@@ -10,19 +10,19 @@ import { Alert, StyleSheet, Text, View } from "react-native";
 
 export default function ResetPasswordScreen() {
   const router = useRouter();
-  const params = useSearchParams(); // pega ?token=XYZ
+  const params = useSearchParams();
   const token = params.get("token");
 
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleReset = async () => {
-    if (!password || !confirmPassword) {
+    if (!newPassword || !confirmNewPassword) {
       Alert.alert("Erro", "Preencha todos os campos.");
       return;
     }
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmNewPassword) {
       Alert.alert("Erro", "As senhas não coincidem.");
       return;
     }
@@ -33,9 +33,8 @@ export default function ResetPasswordScreen() {
       const response: AxiosResponse<string> = await apiClient.post(
         "/auth/reset-password",
         {
-          token: token,
-          newPassword: password,
-          confirmNewPassword: confirmPassword
+          token,
+          newPassword,
         }
       );
 
@@ -55,21 +54,24 @@ export default function ResetPasswordScreen() {
       <Text style={styles.subtitle}>Insira sua nova senha abaixo.</Text>
       <TextInput
         placeholder="Nova senha"
-        value={password}
-        onChangeText={setPassword}
+        value={newPassword}
+        onChangeText={setNewPassword}
         secureTextEntry
       />
       <TextInput
         placeholder="Confirme a nova senha"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
+        value={confirmNewPassword}
+        onChangeText={setConfirmNewPassword}
         secureTextEntry
         style={{ marginTop: 10 }}
       />
-      <Button
+
+      <CustomButton
         title="Redefinir Senha"
-        onPress={handleReset}
         isLoading={isLoading}
+        onPress={handleReset}
+        type="primary"
+        disabled={isLoading}
       />
     </View>
   );
@@ -84,16 +86,16 @@ const styles = StyleSheet.create({
     padding: SIZES.padding * 2,
   },
   title: {
-    fontSize: SIZES.h2,
+    fontSize: SIZES.h1,
     fontWeight: "bold",
-    color: COLORS.text,
-    textAlign: "center",
-    marginBottom: SIZES.padding,
-  },
-  subtitle: {
-    fontSize: SIZES.body,
-    color: COLORS.textLight,
-    textAlign: "center",
+    color: COLORS.primary,
     marginBottom: SIZES.padding * 2,
+  },
+
+  subtitle: {
+    fontSize: 16,
+    color: "#666",
+    marginBottom: 40,
+    textAlign: "center"
   },
 });

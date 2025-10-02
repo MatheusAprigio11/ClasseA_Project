@@ -1,14 +1,13 @@
 import { create } from 'zustand';
 
-type AuthStore = {
-  token: string,
-  login: (token: string) => void
-  logout: () => void
+export interface AuthStoreState {
+  token: string | null;
+  login: (token: string) => void;
+  logout: () => void;
 }
 
-
-export const useAuthStore = create<AuthStore> () ((set) => ({
-  token: "",
-  login: (token) => set(() => ({ token: token })),
-  logout: () => set(() => ({ token: "" }))
+export const useAuthStore = create<AuthStoreState>((set) => ({
+  token: null,
+  login: (token: string) => set({ token }),
+  logout: () => set({ token: null }),
 }));

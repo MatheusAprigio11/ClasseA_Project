@@ -1,13 +1,20 @@
 import React from 'react';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, ViewStyle } from 'react-native';
+import { COLORS } from '@/constants/theme';
 
-const Spinner: React.FC = () => {
-  return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" color="#FFFFFF" />
+interface SpinnerProps {
+  color?: string;
+  size?: 'small' | 'large' | number;
+  containerStyle?: ViewStyle;
+}
+
+const Spinner: React.FC<SpinnerProps> = React.memo(
+  ({ color = COLORS.white, size = 'large', containerStyle }) => (
+    <View style={[styles.container, containerStyle]}>
+      <ActivityIndicator size={size} color={color} />
     </View>
-  );
-};
+  )
+);
 
 const styles = StyleSheet.create({
   container: {

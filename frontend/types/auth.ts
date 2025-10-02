@@ -1,15 +1,15 @@
 export interface LoginResponse {
-  token?: string
+  token: string;
 }
 
 export interface LoginData {
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
 }
 
 export interface RegisterData extends LoginData {
-  name?: string;
-  confirmPassword?: string;
+  name: string;
+  confirmPassword: string;
 }
 
 export interface ForgotPasswordData {
@@ -18,18 +18,20 @@ export interface ForgotPasswordData {
 
 export interface ResetPasswordData {
   token: string;
-  newPassword?: string;
-  confirmNewPassword?: string;
+  newPassword: string;
+  confirmNewPassword: string;
 }
 
+export type AuthFunction<T> = (data: T) => Promise<void>;
+
 export interface AuthState {
-  token: string | null;
-  isLoading: boolean;
-  error: string | null;
-  login: (data: LoginData) => Promise<void>;
-  register: (data: RegisterData) => Promise<void>;
-  forgotPassword: (data: ForgotPasswordData) => Promise<void>;
-  resetPassword: (data: ResetPasswordData) => Promise<void>;
+  readonly token: string | null;
+  readonly isLoading: boolean;
+  readonly error: string | null;
+  login: AuthFunction<LoginData>;
+  register: AuthFunction<RegisterData>;
+  forgotPassword: AuthFunction<ForgotPasswordData>;
+  resetPassword: AuthFunction<ResetPasswordData>;
   logout: () => void;
   clearError: () => void;
 }

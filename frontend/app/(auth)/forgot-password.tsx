@@ -1,17 +1,19 @@
 import { apiClient } from "@/api/api";
-import Button from "@/components/Button";
+import CustomButton from "@/components/Button";
 import TextInput from "@/components/TextInput";
 import { COLORS, SIZES } from "@/constants/theme";
+import { AxiosResponse } from "axios";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { AxiosResponse } from "axios";
 
-export default function ForgotPasswordScreen() {
+const ForgotPasswordScreen: React.FC = () => {
   const router = useRouter();
-  // const { forgotPassword, isLoading } = useAuthStore();
-  const isLoading = false;
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const isValidEmail = (value: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
   const handleRequest = async () => {
     if (!email) {
@@ -19,26 +21,30 @@ export default function ForgotPasswordScreen() {
       return;
     }
 
-    await apiClient
-      .post<String>("/auth/forgot-password", {
-        email: email
-      })
-      .then((response: AxiosResponse<String>) => {
-        Alert.alert("Sucesso", `${response.data}`, [
-          { text: "OK", onPress: () => router.navigate("/login") },
-        ]);
-      })
-      .catch((error) => {
-        if (error instanceof Error) {
-          Alert.alert("Erro de Registro", error.message);
-        }
-      });
+    if (!isValidEmail(email)) {
+      Alert.alert("Erro", "Por favor, insira um email válido.");
+      return;
+    }
 
-    Alert.alert(
-      "Verifique seu Email",
-      "Se um usuário com este email existir, um link de recuperação foi enviado.",
-      [{ text: "OK", onPress: () => router.navigate("/login") }]
-    );
+    setIsLoading(true);
+
+    try {
+      const response: AxiosResponse<string> = await apiClient.post(
+        "/auth/forgot-password",
+        { email }
+      );
+
+      Alert.alert("Sucesso", response.data, [
+        { text: "OK", onPress: () => router.navigate("/login") },
+      ]);
+    } catch (error: any) {
+      Alert.alert(
+        "Erro",
+        error?.message || "Erro ao enviar email de recuperação."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -54,20 +60,25 @@ export default function ForgotPasswordScreen() {
         keyboardType="email-address"
         autoCapitalize="none"
       />
-      <Button
+
+      <CustomButton
         title="Enviar Link"
-        onPress={handleRequest}
         isLoading={isLoading}
+        onPress={handleRequest}
+        type="primary"
+        disabled={isLoading}
+        style={styles.sendButton}
       />
-      <TouchableOpacity
+      
+      <CustomButton
+        title="Voltar para o Login"
         onPress={() => router.back()}
-        style={styles.linkContainer}
-      >
-        <Text style={styles.linkText}>Voltar para o Login</Text>
-      </TouchableOpacity>
+        type="secondary"
+        style={styles.linkLoginButton}
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -78,18 +89,28 @@ const styles = StyleSheet.create({
     padding: SIZES.padding * 2,
   },
   title: {
-    fontSize: SIZES.h2,
+    fontSize: SIZES.h1,
     fontWeight: "bold",
-    color: COLORS.text,
-    textAlign: "center",
-    marginBottom: SIZES.padding,
-  },
-  subtitle: {
-    fontSize: SIZES.body,
-    color: COLORS.textLight,
-    textAlign: "center",
+    color: COLORS.primary,
     marginBottom: SIZES.padding * 2,
   },
-  linkContainer: { marginTop: 15 },
-  linkText: { color: COLORS.primary, fontSize: SIZES.body },
+
+  subtitle: {
+    fontSize: 16,
+    color: "#666",
+    marginBottom: 40,
+    textAlign: "center"
+  },
+
+  sendButton: {
+    marginBottom: 20,
+  },
+
+  linkLoginButton: {
+    flex: 0,
+    paddingHorizontal: 0,
+    alignSelf: "center",
+  },
 });
+
+export default ForgotPasswordScreen;

@@ -26,9 +26,6 @@ class AuthService(
 
     @Transactional
     fun register(request: RegisterRequest) {
-        if (request.password != request.confirmPassword) {
-            throw PasswordsDoNotMatchException()
-        }
         if (userRepository.findByEmail(request.email).isPresent) {
             throw EmailAlreadyExistsException()
         }
@@ -60,10 +57,6 @@ class AuthService(
 
     @Transactional
     fun resetPassword(request: ResetPasswordRequest) {
-        if (request.newPassword != request.confirmNewPassword) {
-            throw PasswordsDoNotMatchException()
-        }
-
         val claims = try {
             tokenService.getClaims(request.token)
         } catch (e: Exception) {

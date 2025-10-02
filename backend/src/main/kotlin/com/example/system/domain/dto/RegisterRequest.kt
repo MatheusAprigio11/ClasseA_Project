@@ -16,6 +16,4 @@ data class RegisterRequest(
     @field:Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres.")
     val password: String,
 
-    @field:NotEmpty(message = "A confirmação de senha não pode ser vazia.")
-    val confirmPassword: String
 )

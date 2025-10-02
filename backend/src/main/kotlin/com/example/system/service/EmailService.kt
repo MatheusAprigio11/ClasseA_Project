@@ -9,7 +9,7 @@ class EmailService(private val mailSender: JavaMailSender) {
 
     fun sendPasswordResetEmail(toEmail: String, token: String) {
         val subject = "Recuperação de Senha"
-        val link = "linkfront/reset-password?token=$token"
+        val link = "http://localhost:8081/reset-password?token=$token"
         val text = """
             Olá,
 
