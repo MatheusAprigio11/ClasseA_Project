@@ -1,7 +1,7 @@
+import CustomButton from "@/components/Button";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import CustomButton from "../../components/Button";
 
 const WELCOME_ILLUSTRATION = require("@/assets/images/logo.png");
 
@@ -9,11 +9,11 @@ const LoginHomeScreen: React.FC = () => {
   const router = useRouter();
 
   const handleLogin = () => {
-    router.navigate("/login")
+    router.navigate("/login");
   };
 
   const handleRegister = () => {
-    router.navigate("/register")
+    router.navigate("/register");
   };
 
   return (
