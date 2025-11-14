@@ -5,7 +5,6 @@ interface OrderCardProps {
   id: string;
   customerName: string;
   orderDate: string;
-  status: 'pending' | 'processing' | 'completed' | 'cancelled';
   totalValue: number;
   itemsCount: number;
   onPress?: () => void;
@@ -15,41 +14,10 @@ const OrderCard: React.FC<OrderCardProps> = ({
   id,
   customerName,
   orderDate,
-  status,
   totalValue,
   itemsCount,
   onPress,
 }) => {
-  const getStatusColor = () => {
-    switch (status) {
-      case 'pending':
-        return '#FFA500';
-      case 'processing':
-        return '#2196F3';
-      case 'completed':
-        return '#4CAF50';
-      case 'cancelled':
-        return '#F44336';
-      default:
-        return '#999';
-    }
-  };
-
-  const getStatusText = () => {
-    switch (status) {
-      case 'pending':
-        return 'Pendente';
-      case 'processing':
-        return 'Em Processamento';
-      case 'completed':
-        return 'Concluído';
-      case 'cancelled':
-        return 'Cancelado';
-      default:
-        return status;
-    }
-  };
-
   return (
     <TouchableOpacity
       style={styles.container}
@@ -58,9 +26,6 @@ const OrderCard: React.FC<OrderCardProps> = ({
     >
       <View style={styles.header}>
         <Text style={styles.orderId}>Pedido #{id}</Text>
-        <View style={[styles.statusBadge, { backgroundColor: getStatusColor() }]}>
-          <Text style={styles.statusText}>{getStatusText()}</Text>
-        </View>
       </View>
 
       <View style={styles.divider} />

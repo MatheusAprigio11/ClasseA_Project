@@ -12,7 +12,7 @@ class ProductService(private val productRepository: ProductRepository) {
     fun getProductById(id: Long): Product = productRepository.findById(id)
         .orElseThrow { IllegalArgumentException("Product not found with id: $id") }
 
-    fun getAllProducts(): List<Product> = productRepository.findAll()
+    fun getAllProducts(): List<Product> = productRepository.findByActiveTrue()
 
     fun updateProduct(id: Long, updatedProduct: Product): Product {
         val existingProduct = getProductById(id)
@@ -26,9 +26,10 @@ class ProductService(private val productRepository: ProductRepository) {
     }
 
     fun deleteProduct(id: Long) {
-        if (!productRepository.existsById(id)) {
-            throw IllegalArgumentException("Product not found with id: $id")
+        val existingProduct = getProductById(id)
+        existingProduct.apply {
+            active = false
         }
-        productRepository.deleteById(id)
+        productRepository.save(existingProduct)
     }
 }

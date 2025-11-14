@@ -15,6 +15,7 @@ class OrderMapper(
     fun toResponseDTO(order: Order): OrderResponseDTO {
         return OrderResponseDTO(
             id = order.id!!,
+            orderRequestedBy = order.user.name,
             createdAt = order.createdAt,
             totalValue = order.totalValue,
             items = order.items.map { toOrderItemResponseDTO(it) }

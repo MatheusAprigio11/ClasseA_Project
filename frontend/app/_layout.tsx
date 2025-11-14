@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { CartProvider } from "@/components/CartContext";
 import { useAuthStore } from "@/store/authStore";
-import { Slot, useRouter, useSegments, usePathname } from "expo-router";
+import { Slot, usePathname, useRouter, useSegments } from "expo-router";
+import React, { useEffect, useState } from "react";
 
 const RootLayout: React.FC = () => {
   const token = useAuthStore((state) => state.token);
@@ -21,19 +22,23 @@ const RootLayout: React.FC = () => {
     const inRootIndex = pathname === "/";
 
     if (inRootIndex) {
-      if (!token) {
-        router.replace("/home");
+      if (token) {
+        router.replace("/products");
       } else {
         router.replace("/login-home");
       }
-    } else if (token && inAppGroup) {
+    } else if (!token && inAppGroup) {
       router.replace("/login");
-    } else if (!token && inAuthGroup) {
-      router.replace("/home");
+    } else if (token && inAuthGroup) {
+      router.replace("/products");
     }
   }, [mounted, token, segments, pathname]);
 
-  return <Slot />;
+  return (
+    <CartProvider>
+      <Slot />
+    </CartProvider>
+  );
 };
 
 export default RootLayout;

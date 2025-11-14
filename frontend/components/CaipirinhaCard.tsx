@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { COLORS, SIZES } from "@/constants/theme";
 
-interface CaipirinhaCardProps {
+interface ProductCardProps {
   id: string;
   name: string;
   description: string;
@@ -10,7 +10,7 @@ interface CaipirinhaCardProps {
   onPress: () => void;
 }
 
-const CaipirinhaCard: React.FC<CaipirinhaCardProps> = ({
+const ProductCard: React.FC<ProductCardProps> = ({
   name,
   description,
   price,
@@ -40,25 +40,30 @@ const CaipirinhaCard: React.FC<CaipirinhaCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
+    flex: 1,
+    maxWidth: "100%",
+    height: 100,
+
     backgroundColor: "#FFFFFF",
     borderRadius: SIZES.radius,
     padding: SIZES.padding,
-    marginBottom: 12,
+
+    justifyContent: "center",
+
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
+
   cardHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 8,
   },
+
   cardTitle: {
     flex: 1,
     fontSize: 18,
@@ -66,22 +71,29 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     marginRight: 12,
   },
+
   priceBadge: {
     backgroundColor: COLORS.primary,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     borderRadius: 20,
+
+    minWidth: 70,
+    alignItems: "center",
   },
+
   priceText: {
     color: COLORS.secondary,
     fontSize: 14,
     fontWeight: "700",
   },
+
   cardDescription: {
     fontSize: 14,
     color: COLORS.textLight,
     lineHeight: 20,
+    flexShrink: 1,
   },
 });
 
-export default CaipirinhaCard;
+export default ProductCard;

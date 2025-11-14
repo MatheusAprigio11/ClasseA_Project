@@ -18,7 +18,11 @@ class Product(
     @Column(nullable = false)
     var price: Double,
 
+    @Column(nullable = false)
+    var active: Boolean = true,
+
     @Lob
     @Column
     var image: ByteArray? = null
+
 )

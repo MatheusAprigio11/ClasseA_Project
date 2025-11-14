@@ -21,20 +21,18 @@ const LoginHomeScreen: React.FC = () => {
       <Image
         source={WELCOME_ILLUSTRATION}
         style={styles.illustrationImage}
-        accessibilityLabel="Man sitting on a chair, working on a laptop, and holding a cup."
+        accessibilityLabel="Bird sitting on a chair, working on a laptop, and holding a cup."
       />
 
       <View style={styles.contentArea}>
-        <Text style={styles.mainTitle}>Titulo</Text>
-        <Text style={styles.mainTitle}>Dois Titulo</Text>
-        <Text style={styles.subtitle}>
-          Subtitulo menorzinho pra dar um charme
-        </Text>
+        <Text style={styles.mainTitle}>Caipirinha</Text>
+        <Text style={styles.mainTitle}>Mata a sede!</Text>
+        <Text style={styles.subtitle}>As melhores caipirinhas de Campinas da região</Text>
       </View>
 
       <View style={styles.buttonContainer}>
         <CustomButton
-          title="Login"
+          title="Entrar"
           onPress={handleLogin}
           type="primary"
           fullWidth={false}
@@ -42,7 +40,7 @@ const LoginHomeScreen: React.FC = () => {
         />
 
         <CustomButton
-          title="Register"
+          title="Registrar"
           onPress={handleRegister}
           type="secondary"
           fullWidth={false}

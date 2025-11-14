@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, ReactNode, useContext, useState } from "react";
 
 interface Caipirinha {
   id: string;
@@ -22,9 +22,11 @@ interface CartContextData {
   getTotalValue: () => number;
 }
 
-const CartContext = createContext<CartContextData>({} as CartContextData);
+const CartContext = createContext<CartContextData | null>(null);
 
-export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const CartProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const addToCart = (caipirinha: Caipirinha, quantity: number) => {
@@ -98,7 +100,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (!context) {
+  if (context === null) {
     throw new Error("useCart must be used within a CartProvider");
   }
   return context;
