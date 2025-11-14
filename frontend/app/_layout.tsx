@@ -21,14 +21,14 @@ const RootLayout: React.FC = () => {
     const inRootIndex = pathname === "/";
 
     if (inRootIndex) {
-      if (token) {
+      if (!token) {
         router.replace("/home");
       } else {
         router.replace("/login-home");
       }
-    } else if (!token && inAppGroup) {
+    } else if (token && inAppGroup) {
       router.replace("/login");
-    } else if (token && inAuthGroup) {
+    } else if (!token && inAuthGroup) {
       router.replace("/home");
     }
   }, [mounted, token, segments, pathname]);
