@@ -1,16 +1,14 @@
 package com.example.system.service
 
 import com.example.system.config.JwtProperties
-import com.example.system.domain.dto.LoginRequest
-import com.example.system.domain.dto.RegisterRequest
-import com.example.system.domain.dto.ResetPasswordRequest
+import com.example.system.domain.dto.auth.LoginRequest
+import com.example.system.domain.dto.auth.RegisterRequest
+import com.example.system.domain.dto.auth.ResetPasswordRequest
 import com.example.system.domain.model.User
 import com.example.system.domain.repository.UserRepository
 import com.example.system.exceptions.EmailAlreadyExistsException
 import com.example.system.exceptions.InvalidCredentialsException
 import com.example.system.exceptions.InvalidTokenException
-import com.example.system.exceptions.PasswordsDoNotMatchException
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

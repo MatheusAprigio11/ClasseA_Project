@@ -1,4 +1,4 @@
-package com.example.system.domain.dto
+package com.example.system.domain.dto.auth
 
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.Size

@@ -1,0 +1,18 @@
+package com.example.system.domain.repository
+
+import com.example.system.domain.model.Order
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
+
+@Repository
+interface OrderRepository : JpaRepository<Order, Long> {
+
+    @Query("SELECT o FROM Order o LEFT JOIN FETCH o.items WHERE o.id = :id")
+    fun findByIdWithItems(id: Long): Order?
+
+    @Query("SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.items")
+    fun findAllWithItems(): List<Order>
+
+    fun findByUserId(userId: Long): List<Order>
+}
