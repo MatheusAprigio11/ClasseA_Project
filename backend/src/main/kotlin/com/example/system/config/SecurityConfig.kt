@@ -3,6 +3,7 @@ package com.example.system.config
 import com.example.system.config.filter.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.invoke
@@ -37,11 +38,16 @@ class SecurityConfig(
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http {
             cors { }
-            csrf { disable( ) }
+            csrf { disable() }
             sessionManagement { sessionCreationPolicy = SessionCreationPolicy.STATELESS }
             authorizeHttpRequests {
                 swaggerWhitelist.forEach { authorize(it, permitAll) }
                 authorize("/api/auth/**", permitAll)
+                authorize(HttpMethod.POST, "/api/products/**", hasRole("ADMIN"))
+                authorize(HttpMethod.PUT, "/api/products/**", hasRole("ADMIN"))
+                authorize(HttpMethod.DELETE, "/api/products/**", hasRole("ADMIN"))
+                authorize(HttpMethod.GET, "/api/products/**", authenticated)
+                authorize("/api/orders/**", authenticated)
                 authorize("/**", authenticated)
             }
         }
