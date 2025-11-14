@@ -6,6 +6,6 @@ CREATE TABLE products (
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     price DOUBLE NOT NULL,
-    image TINYBLOB NOT NULL,
+    image TINYBLOB,
     CONSTRAINT pk_products PRIMARY KEY (id)
 );

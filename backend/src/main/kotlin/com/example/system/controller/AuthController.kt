@@ -1,6 +1,6 @@
 package com.example.system.controller
 
-import com.example.system.domain.dto.*
+import com.example.system.domain.dto.auth.*
 import com.example.system.service.AuthService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus

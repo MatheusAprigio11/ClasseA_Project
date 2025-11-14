@@ -7,7 +7,7 @@ import jakarta.persistence.*
 class Product(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    val id: Long? = null,
 
     @Column(nullable = false)
     var name: String,
@@ -19,6 +19,6 @@ class Product(
     var price: Double,
 
     @Lob
-    @Column(nullable = false)
-    var image: ByteArray
+    @Column
+    var image: ByteArray? = null
 )
